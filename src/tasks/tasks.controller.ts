@@ -28,12 +28,12 @@ export class TasksController {
   //   }
   // }
 
-  // @Post()
-  // createTask(@Body() createTaskDto: CreateTaskDto): Task {
-  //   console.log('body', createTaskDto);
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    console.log('body', createTaskDto);
 
-  //   return this.tasksService.createTask(createTaskDto);
-  // }
+    return this.tasksService.createTask(createTaskDto);
+  }
 
   @Get('/:id')
   getTaskById(@Param('id') id: string): Promise<Task> {
