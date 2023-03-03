@@ -32,8 +32,13 @@ export class TasksRepository extends Repository<Task> {
     return tasks;
   }
 
-  async findTaskById(id: string): Promise<Task> {
-    const found = await this.findOneBy({ id });
+  async findTaskById(id: string, user: User): Promise<Task> {
+    const found = await this.findOne({
+      where: {
+        id,
+        user,
+      },
+    });
 
     if (!found) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
@@ -53,8 +58,8 @@ export class TasksRepository extends Repository<Task> {
     return await this.save(task);
   }
 
-  async deleteTaskById(id: string): Promise<void> {
-    const result = await this.delete(id);
+  async deleteTaskById(id: string, user: User): Promise<void> {
+    const result = await this.delete({ id, user });
     console.log(result);
 
     if (result.affected === 0) {
@@ -62,8 +67,8 @@ export class TasksRepository extends Repository<Task> {
     }
   }
 
-  async updateTask(id: string, status: TaskStatus): Promise<Task> {
-    const task = await this.findTaskById(id);
+  async updateTask(id: string, status: TaskStatus, user: User): Promise<Task> {
+    const task = await this.findTaskById(id, user);
     task.status = status;
 
     return await this.save(task);
