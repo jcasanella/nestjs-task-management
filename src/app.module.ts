@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      // This means the name of the file is provided from a environment variable named STAGE
+      // Check pakage.json - look for STAGE
       envFilePath: [`.env.stage.${process.env.STAGE}`],
     }),
     TasksModule,
